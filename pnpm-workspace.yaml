@@ -1,0 +1,9 @@
+allowBuilds:
+  '@scarf/scarf': set this to true or false
+  '@tree-sitter-grammars/tree-sitter-yaml': set this to true or false
+  core-js-pure: set this to true or false
+  sharp: false
+  tree-sitter: set this to true or false
+  tree-sitter-json: set this to true or false
+# Add this line to skip ALL age checks for this project
+trustLockfile: true

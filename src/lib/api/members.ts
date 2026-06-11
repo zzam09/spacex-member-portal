@@ -6,8 +6,8 @@
  * Errors are caught and converted to clean JSON-style failures.
  */
 
-import { Member, MemberInsert, MemberUpdate, MemberStatus, MemberTier } from '@/types/member';
-import { supabase } from './../../lib/supabase';
+import { Member, MemberInsert, MemberUpdate, MemberStatus, MemberTier } from '../../types/member';
+import { supabase } from './../supabase';
 import { success, failure, ApiResponse } from './response';
 import { API_ERRORS } from './errors';
 import {
@@ -28,9 +28,9 @@ import { ZodError } from 'zod';
  * Convert Zod validation errors to a readable message
  */
 function formatValidationErrors(error: ZodError): string {
-  const messages = error.errors.map((e) => {
-    const path = e.path.join('.');
-    return `${path}: ${e.message}`;
+  const messages = error.issues.map((issue) => {
+    const path = issue.path.join('.');
+    return `${path}: ${issue.message}`;
   });
   return messages.join('; ');
 }
@@ -39,20 +39,39 @@ function formatValidationErrors(error: ZodError): string {
  * Handle Supabase errors and return clean API failures
  */
 function handleSupabaseError(error: unknown): ApiFailure {
-  if (error instanceof Error) {
-    // Check for common Supabase errors
-    if (error.message.includes('PGRST116') || error.message.includes('permission denied')) {
-      return failure(API_ERRORS.FORBIDDEN, 'You do not have permission to perform this action');
-    }
-    if (error.message.includes('unique violation')) {
-      return failure(API_ERRORS.VALIDATION_ERROR, 'A member with this email already exists');
-    }
-    if (error.message.includes('not found')) {
-      return failure(API_ERRORS.NOT_FOUND, 'Member not found');
-    }
-    return failure(API_ERRORS.DATABASE_ERROR, error.message);
+  const message = error instanceof Error ? error.message : String(error ?? 'An unexpected error occurred');
+  const normalizedMessage = message.toLowerCase();
+  const status = typeof error === 'object' && error !== null && 'status' in error
+    ? Number((error as { status?: number }).status)
+    : undefined;
+  const code = typeof error === 'object' && error !== null && 'code' in error
+    ? String((error as { code?: string }).code)
+    : undefined;
+
+  if (
+    status === 401 ||
+    status === 403 ||
+    code === '42501' ||
+    code === 'PGRST301' ||
+    normalizedMessage.includes('permission denied') ||
+    normalizedMessage.includes('row level security') ||
+    normalizedMessage.includes('forbidden')
+  ) {
+    return failure(
+      API_ERRORS.FORBIDDEN,
+      'You do not have permission to perform this action. Sign in as an admin user first.'
+    );
   }
-  return failure(API_ERRORS.UNKNOWN_ERROR, 'An unexpected error occurred');
+
+  if (normalizedMessage.includes('unique violation') || code === '23505') {
+    return failure(API_ERRORS.VALIDATION_ERROR, 'A member with this email already exists');
+  }
+
+  if (normalizedMessage.includes('not found') || code === 'PGRST116') {
+    return failure(API_ERRORS.NOT_FOUND, 'Member not found');
+  }
+
+  return failure(API_ERRORS.DATABASE_ERROR, message);
 }
 
 // ═══════════════════════════════════════════════════════════════════════════

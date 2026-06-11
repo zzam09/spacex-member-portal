@@ -8,7 +8,7 @@
  */
 
 import { z } from 'zod';
-import { MemberRole, MemberStatus, MemberTier } from '@/types/member';
+import { MemberRole, MemberStatus, MemberTier } from '../../types/member';
 
 /**
  * Email validation pattern (RFC 5322 simplified)

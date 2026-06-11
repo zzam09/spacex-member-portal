@@ -1,37 +1,42 @@
-export default function Page() {
-  return (
-    <main className="flex min-h-screen items-center justify-center bg-black px-6 text-neutral-400">
-      <div className="flex w-full max-w-md flex-col items-start gap-8">
-        <svg
-          fill="currentColor"
-          viewBox="0 0 147 70"
-          xmlns="http://www.w3.org/2000/svg"
-          aria-hidden="true"
-          className="size-10 text-white"
-        >
-          <path d="M56 50.2031V14H70V60.1562C70 65.5928 65.5928 70 60.1562 70C57.5605 70 54.9982 68.9992 53.1562 67.1573L0 14H19.7969L56 50.2031Z" />
-          <path d="M147 56H133V23.9531L100.953 56H133V70H96.6875C85.8144 70 77 61.1856 77 50.3125V14H91V46.1562L123.156 14H91V0H127.312C138.186 0 147 8.81439 147 19.6875V56Z" />
-        </svg>
+import Link from 'next/link'
 
-        <div className="space-y-3">
-          <h1 className="text-balance text-2xl font-semibold tracking-tight text-white">
-            To get started, describe what you want to build.
-          </h1>
-          <p className="text-pretty text-sm leading-relaxed text-neutral-500">
-            This is the default page for a fresh v0 project. Open the prompt and
-            tell v0 what to create, or browse the{' '}
-            <a
-              href="https://v0.app/templates"
-              target="_blank"
-              rel="noreferrer"
-              className="text-neutral-300 underline underline-offset-4 hover:text-white"
-            >
-              Community
-            </a>{' '}
-            for inspiration.
+export default function HomePage() {
+  return (
+    <main className="min-h-screen bg-neutral-950 px-6 py-12 text-neutral-100">
+      <section className="mx-auto flex w-full max-w-5xl flex-col gap-8 rounded-3xl border border-neutral-800 bg-neutral-900/90 p-8 shadow-2xl shadow-black/30">
+        <header className="space-y-4">
+          <p className="text-sm uppercase tracking-[0.35em] text-emerald-400">SpaceX Member Portal</p>
+          <h1 className="text-3xl font-semibold text-white md:text-4xl">A cleaner project layout for the app, docs, and API testing</h1>
+          <p className="max-w-2xl text-neutral-300">
+            The main project docs remain in the root folder, while the interactive pages are now grouped under clear sections: docs and playground.
           </p>
+        </header>
+
+        <div className="grid gap-6 md:grid-cols-2">
+          <Link href="/playground" className="rounded-3xl border border-neutral-800 bg-neutral-950 p-6 transition hover:border-emerald-400/70 hover:bg-neutral-900">
+            <p className="text-sm uppercase tracking-[0.35em] text-emerald-400">Testing</p>
+            <h2 className="mt-3 text-xl font-semibold text-white">API Playground</h2>
+            <p className="mt-2 text-sm text-neutral-300">Use the member API directly from a dedicated test page.</p>
+          </Link>
+
+          <Link href="/docs" className="rounded-3xl border border-neutral-800 bg-neutral-950 p-6 transition hover:border-emerald-400/70 hover:bg-neutral-900">
+            <p className="text-sm uppercase tracking-[0.35em] text-emerald-400">Docs</p>
+            <h2 className="mt-3 text-xl font-semibold text-white">Docs Hub</h2>
+            <p className="mt-2 text-sm text-neutral-300">Open the Swagger page and project guides from one place.</p>
+          </Link>
         </div>
-      </div>
+
+        <section className="rounded-3xl border border-neutral-800 bg-black/30 p-6">
+          <h2 className="text-xl font-semibold text-white">What changed</h2>
+          <ul className="mt-4 grid gap-3 text-sm text-neutral-300 md:grid-cols-2">
+            <li>• The interactive API tester now lives under /playground.</li>
+            <li>• The Swagger page now lives under /docs/api.</li>
+            <li>• The main docs markdown files in the project root are still kept intact.</li>
+            <li>• Existing routes still work, and the old docs path redirects to the new docs section.</li>
+          </ul>
+        </section>
+      </section>
     </main>
   )
 }
+
