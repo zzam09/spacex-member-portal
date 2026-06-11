@@ -47,12 +47,14 @@ pnpm install
 Quick summary:
 1. Create Supabase project at [supabase.com](https://supabase.com)
 2. Run SQL files in order (Supabase SQL Editor):
-   - `sql/01-create-members-table.sql`
-   - `sql/02-create-update-trigger.sql`
-   - `sql/03-create-rls-policies.sql`
-   - `sql/04-bootstrap-admin.sql`
-   - `sql/05-seed-sample-members.sql` (optional)
+   - `sql/01-create-members-table.sql` - Create members table
+   - `sql/02-create-update-trigger.sql` - Auto-update timestamps
+   - `sql/03-create-rls-policies.sql` - Row Level Security policies
+   - `sql/04-bootstrap-admin.sql` - Create first admin user
+   - `sql/05-seed-sample-members.sql` - Load 12+ sample members (optional, for testing)
 3. Copy `.env.example` → `.env.local` and fill in Supabase credentials
+
+**For testing:** Run Step 5 to load realistic sample data (2 admins, 5 active members, 2 pending, 2 suspended).
 
 ### 3. Run Development Server
 
