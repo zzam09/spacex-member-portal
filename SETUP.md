@@ -137,13 +137,34 @@ VALUES (
 
 ### Step E: Seed Sample Data (Optional)
 
-To test with sample members, run `sql/05-seed-sample-members.sql`:
+To test with realistic sample members, run `sql/05-seed-sample-members.sql` in Supabase SQL Editor.
 
-This creates 4 test members:
-- Admin: `admin@spacex.local`
-- Active member: `member@spacex.local`
-- Pending member: `pending@spacex.local`
-- Suspended member: `suspended@spacex.local`
+This creates 12+ test members:
+- **2 Admins** (Vanguard tier, ACTIVE)
+  - `admin1@example.com` - Sarah Mitchell
+  - `admin2@example.com` - Marcus Chen
+- **5 Active Members** (mix of tiers: 2 Vanguard, 3 Pioneer, 1 Explorer)
+  - Elena Rodriguez, David Kumar, Jasmine Park, Thomas Wright, Priya Patel
+  - Michael Torres, Nicole Anderson
+- **2 Pending Members** (awaiting activation)
+  - Jordan Lee, Alexandra Volkov
+- **2 Suspended Members** (inactive accounts)
+  - Christopher Blake, Rebecca Foster
+
+**How to run:**
+
+1. In Supabase, go to **SQL Editor**
+2. Copy the entire contents of `sql/05-seed-sample-members.sql`
+3. Paste into SQL Editor
+4. Click "Run" (green button, bottom right)
+
+**Expected output:**
+
+The query runs 14 INSERT statements (idempotent with ON CONFLICT), then displays:
+- A table of all seeded members
+- Summary statistics grouped by role, tier, and status
+
+This script is **safe to run multiple times** — it uses `ON CONFLICT (email) DO UPDATE` to avoid duplicates.
 
 ## 7. Verify Database Setup
 
