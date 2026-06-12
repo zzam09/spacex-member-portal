@@ -42,9 +42,7 @@ pnpm install
 
 ### 2. Set Up Database
 
-**Full instructions:** See [DATABASE.md](./DATABASE.md)
-
-Quick summary:
+Use the SQL scripts in the sql/ folder in order:
 1. Create Supabase project at [supabase.com](https://supabase.com)
 2. Run SQL files in order (Supabase SQL Editor):
    - `sql/01-create-members-table.sql` - Create members table
@@ -134,7 +132,7 @@ is_admin() -> BOOLEAN
 ```
 Checks if current auth user is an admin (safe, uses SECURITY DEFINER).
 
-See [DATABASE.md](./DATABASE.md#rls-security-explained) for detailed examples.
+See the RLS setup in sql/03-create-rls-policies.sql for the detailed policy examples.
 
 ## Frontend Contracts
 
@@ -306,6 +304,8 @@ Make sure:
 New auth users need a member record. Admin must create it first via `createMember()` or database directly.
 
 ## Next Steps
+
+For the planned ORM migration path, see [ORM-MIGRATION-PLAN.md](./ORM-MIGRATION-PLAN.md).
 
 1. **Auth Flow:** Implement Supabase Auth (email OTP sign-in)
 2. **Login Page:** Build UI with Supabase Auth
